@@ -3,6 +3,7 @@
 namespace :docwright do
   desc "Generate documentation for this Rails application"
   task generate: :environment do
-    puts "DocWright: generating documentation..."
+    Docwright::Extractors::DatabaseExtractor.new.generate
+    Docwright::Extractors::ApiExtractor.new.generate
   end
 end
