@@ -16,7 +16,7 @@ module Docwright
         end
 
         FileUtils.mkdir_p("docs")
-        File.write("docs/api.md", lines.join("\n"))
+        Docwright::Merger.write("docs/api.md", lines.join("\n"))
         puts "DocWright: wrote docs/api.md"
       end
     end

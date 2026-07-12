@@ -19,7 +19,7 @@ module Docwright
         end
 
         FileUtils.mkdir_p("docs")
-        File.write("docs/database.md", lines.join("\n"))
+        Docwright::Merger.write("docs/database.md", lines.join("\n"))
         puts "DocWright: Wrote docs/database.md"
       end
     end
