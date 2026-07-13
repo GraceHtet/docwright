@@ -5,5 +5,6 @@ namespace :docwright do
   task generate: :environment do
     Docwright::Extractors::DatabaseExtractor.new.generate
     Docwright::Extractors::ApiExtractor.new.generate
+    Docwright::Extractors::ModelExtractor.new.generate
   end
 end
