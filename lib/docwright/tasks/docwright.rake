@@ -6,5 +6,6 @@ namespace :docwright do
     Docwright::Extractors::DatabaseExtractor.new.generate
     Docwright::Extractors::ApiExtractor.new.generate
     Docwright::Extractors::ModelExtractor.new.generate
+    Docwright::Generators::ManualGenerator.new.generate
   end
 end

@@ -7,6 +7,7 @@ require_relative "docwright/merger"
 require_relative "docwright/extractors/database_extractor"
 require_relative "docwright/extractors/api_extractor"
 require_relative "docwright/extractors/model_extractor"
+require_relative "docwright/generators/manual_generator"
 module Docwright
   class Error < StandardError; end
   # Your code goes here...
