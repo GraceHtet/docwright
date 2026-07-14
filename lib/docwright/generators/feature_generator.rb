@@ -41,11 +41,29 @@ module Docwright
           ## Overview
           <!-- Describe this feature at a high level -->
 
-          ## Flow
-          <!-- Describe the step by step flow of this feature -->
-
           ## Models involved
-          <!-- List the models this feature touches -->
+          <!-- Auto-detection coming in a future phase -->
+
+          ## Controllers and actions
+          <!-- Auto-detection coming in a future phase -->
+
+          ## Services
+          <!-- Auto-detection coming in a future phase -->
+
+          ## Background jobs
+          <!-- Auto-detection coming in a future phase -->
+
+          ## Views
+          <!-- Auto-detection coming in a future phase -->
+
+          ## User flows
+
+          ### Happy path
+          <!-- Describe the main successful flow step by step -->
+          <!-- Example: User > sidebar > article list > click create > fill form > submit -->
+
+          ### Alternative paths
+          <!-- Describe edge cases, error states, or alternative routes -->
 
           ## Edge cases
           <!-- Document important edge cases for this feature -->
