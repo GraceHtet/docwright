@@ -9,6 +9,7 @@ require_relative "docwright/extractors/api_extractor"
 require_relative "docwright/extractors/model_extractor"
 require_relative "docwright/generators/manual_generator"
 require_relative "docwright/generators/feature_generator"
+require_relative "docwright/wizard"
 module Docwright
   class Error < StandardError; end
   # Your code goes here...

@@ -120,6 +120,16 @@ module Docwright
           end
         end
       end
+
+      def generate_single(path, filename)
+        return if File.exist?(path)
+
+        content = TEMPLATES[filename]
+        return unless content
+
+        FileUtils.mkdir_p(File.dirname(path))
+        File.write(path, content)
+      end
     end
   end
 end
