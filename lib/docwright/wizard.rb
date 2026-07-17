@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Docwright
-  class Wizard
+  class Wizard # rubocop:disable Metrics/ClassLength
     FIRST_RUN_MESSAGE = <<~MSG
       ============================================
       DocWright — Rails Documentation Generator
@@ -31,7 +31,17 @@ module Docwright
     DOCWRIGHT_YML_TEMPLATE = <<~YAML
       # DocWright feature configuration
       # Declare your app's features here and DocWright will generate a doc template for each one.
+      ##{" "}
+      # Optional narrative docs - set to true to generate
+      # DocWright will only generate these if the relevant folders exist in your app
+      ##{" "}
+      # optional_docs:
+      #   controllers: true
+      #   background_jobs: true
+      #   services: true
+      #   auth_and_permissions: true
       #
+      # Feature-specific docs
       # Uncomment and edit the example below to add your features:
       #
       # features:
@@ -41,7 +51,7 @@ module Docwright
       #     description: Billing, plan management, and renewals
     YAML
 
-    def run
+    def run # rubocop:disable Metrics/MethodLength
       first_run = !File.exist?("docs")
       puts FIRST_RUN_MESSAGE if first_run
 
@@ -72,7 +82,7 @@ module Docwright
       puts "DocWright: created .docwright.yml — add your features there.\n"
     end
 
-    def detection_pass
+    def detection_pass # rubocop:disable Metrics/MethodLength
       auto_files = %w[database.md api.md models.md]
       manual_files = %w[overview.md business_rules.md setup.md
                         architecture.md deployment.md security.md
@@ -98,7 +108,7 @@ module Docwright
       (config["features"] || []).map { |f| "#{f["name"]}.md" }
     end
 
-    def display_report(report)
+    def display_report(report) # rubocop:disable Metrics/CyclomaticComplexity
       puts "  Will regenerate (auto):"
       report[:auto].each { |f| puts "    - #{f}" }
 
@@ -133,6 +143,18 @@ module Docwright
       Docwright::Extractors::DatabaseExtractor.new.generate
       Docwright::Extractors::ApiExtractor.new.generate
       Docwright::Extractors::ModelExtractor.new.generate
+      generate_optional_docs
+    end
+
+    def generate_optional_docs
+      return unless File.exist?(".docwright.yml")
+
+      require "yaml"
+      config = YAML.load_file(".docwright.yml")
+      return unless config.is_a?(Hash)
+
+      optional = config["optional_docs"] || {}
+      Docwright::Extractors::AuthExtractor.new.generate if optional["auth_and_permissions"]
     end
 
     def process_manual_files(files)
