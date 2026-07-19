@@ -155,6 +155,7 @@ module Docwright
 
       optional = config["optional_docs"] || {}
       Docwright::Extractors::AuthExtractor.new.generate if optional["auth_and_permissions"]
+      Docwright::Extractors::BackgroundJobsExtractor.new.generate if optional["background_jobs"]
     end
 
     def process_manual_files(files)
