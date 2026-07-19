@@ -52,7 +52,8 @@ module Docwright
     YAML
 
     def run # rubocop:disable Metrics/MethodLength
-      first_run = !File.exist?("docs")
+      ## File.exist? also works for both files and directories but Dir.exist? is specific for folder and return nil if that is named as file name
+      first_run = !Dir.exist?("docs")
       puts FIRST_RUN_MESSAGE if first_run
 
       create_config_if_missing
@@ -156,6 +157,7 @@ module Docwright
       optional = config["optional_docs"] || {}
       Docwright::Extractors::AuthExtractor.new.generate if optional["auth_and_permissions"]
       Docwright::Extractors::BackgroundJobsExtractor.new.generate if optional["background_jobs"]
+      Docwright::Extractors::ServicesExtractor.new.generate if optional["services"]
     end
 
     def process_manual_files(files)
