@@ -10,4 +10,9 @@ namespace :docwright do
     # Docwright::Generators::FeatureGenerator.new.generate
     Docwright::Wizard.new.run
   end
+
+  desc "Check Documentation completeness"
+  task check: :environment do
+    Docwright::Checker.new.run
+  end
 end

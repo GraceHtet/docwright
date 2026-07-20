@@ -14,6 +14,7 @@ require_relative "docwright/extractors/concerns_extractor"
 require_relative "docwright/generators/manual_generator"
 require_relative "docwright/generators/feature_generator"
 require_relative "docwright/wizard"
+require_relative "docwright/checker"
 
 module Docwright
   class Error < StandardError; end
