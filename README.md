@@ -1,43 +1,148 @@
-# Docwright
+# DocWright
 
-TODO: Delete this and the text below, and describe your gem
+Auto-generate and maintain documentation for your Rails application.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/docwright`. To experiment with that code, run `bin/console` for an interactive prompt.
+DocWright introspects your live Rails app to generate structured markdown
+documentation for your database schema, API routes, models, services,
+background jobs, and more. Human-written content is preserved across
+regenerations using smart merge markers.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
-
-```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem "docwright"
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Then run:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle install
+bundle exec rake docwright:generate
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Generate documentation
+
+```bash
+rake docwright:generate
+```
+
+Runs the interactive wizard which:
+
+1. Scans your app and shows what will be generated
+2. Asks y/n to continue
+3. Generates auto files (database, API, models)
+4. Walks you through each new manual file with write/editor/skip options
+
+### Check documentation completeness
+
+```bash
+rake docwright:check
+```
+
+Audits your docs and reports:
+
+- Missing required files
+- Files with placeholder content only
+- Empty notes slots
+
+### Search documentation
+
+```bash
+rake docwright:search[your_term]
+```
+
+Searches across all generated markdown files.
+
+## Generated files
+
+### Auto-generated (always regenerated)
+
+- `docs/database.md` — tables, columns, types
+- `docs/api.md` — routes and endpoints
+- `docs/models.md` — associations and validations per model
+
+### Manual templates (written once, never overwritten)
+
+- `docs/overview.md`
+- `docs/setup.md`
+- `docs/architecture.md`
+- `docs/deployment.md`
+- `docs/security.md`
+- `docs/troubleshooting.md`
+- `docs/business_rules.md`
+- `docs/changelog.md`
+- `docs/readme.md`
+
+### Optional docs (declared in `.docwright.yml`)
+
+- `docs/auth_and_permissions.md`
+- `docs/background_jobs.md`
+- `docs/services.md`
+- `docs/concerns.md`
+- `docs/features/*.md`
+
+## Configuration
+
+Create `.docwright.yml` in your Rails app root:
+
+```yaml
+# Optional narrative docs
+optional_docs:
+  auth_and_permissions: true
+  background_jobs: true
+  services: true
+  concerns: true
+
+# Feature-specific docs
+features:
+  - name: qr_flow
+    description: QR code generation and scanning flow
+  - name: subscriptions
+    description: Billing and plan management
+```
+
+## How merge markers work
+
+Auto-generated content is wrapped in markers:
+
+<!-- DOCWRIGHT:AUTO -->
+
+auto content here — regenerated every time
+
+<!-- DOCWRIGHT:END -->
+
+Write your notes **outside** these markers — DocWright will never touch them.
+
+For per-model files, named markers are used:
+
+<!-- DOCWRIGHT:AUTO:Post -->
+
+auto content for Post
+
+<!-- DOCWRIGHT:END:Post -->
+
+Notes for Post
+
+your notes here — never overwritten
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```bash
+git clone https://github.com/GraceHtet/docwright.git
+cd docwright
+bundle install
+bundle exec rspec
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/docwright. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/docwright/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on
+[GitHub](https://github.com/GraceHtet/docwright).
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Docwright project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/docwright/blob/master/CODE_OF_CONDUCT.md).
+MIT License. See [LICENSE.txt](LICENSE.txt).
