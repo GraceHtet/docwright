@@ -15,4 +15,14 @@ namespace :docwright do
   task check: :environment do
     Docwright::Checker.new.run
   end
+
+  desc "Search documentation"
+  task :search, [:term] => :environment do |_, args|
+    term = args[:term]
+    if term.nil? || term.empty?
+      puts "Usage: rake docwright:search[your_search_term]"
+    else
+      Docwright::Searcher.new(term).run
+    end
+  end
 end
