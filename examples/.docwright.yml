@@ -1,0 +1,11 @@
+features:
+  - name: qr_flow
+    description: QR code generation and scanning flow
+  - name: subscriptions
+    description: Billing, plan management, and renewals
+
+optional_docs:
+  auth_and_permissions: true
+  background_jobs: true
+  services: true
+  concerns: true
