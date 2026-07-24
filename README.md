@@ -138,6 +138,10 @@ bundle install
 bundle exec rspec
 ```
 
+## Examples
+
+See the [examples/](examples/) folder for sample generated output.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on

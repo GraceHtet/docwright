@@ -5,7 +5,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-07-22
 
 ### Added
 
@@ -23,3 +23,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Smart merge markers — human-written content preserved across regenerations
 - `docwright:check` — audit task for missing files, placeholder content, empty notes
 - `docwright:search` — search across all documentation files
+
+## [0.1.1] - 2026-07-24
+
+### Fixed
+
+- `eager_load!` rescue in model, auth, concerns, and background_jobs extractors to handle missing railties gracefully
+- `merger.rb` notes_placeholder now passed through to `merge_named` — fixes inconsistent notes headers
+- `write_template` in wizard now correctly handles feature files using `FeatureGenerator`
+- `FeatureGenerator` — added `generate_single` method for wizard template writing
+- `README.md` — added link to examples/ folder
