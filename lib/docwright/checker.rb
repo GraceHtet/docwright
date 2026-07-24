@@ -111,6 +111,7 @@ module Docwright
 
         lines.each_with_index do |line, i|
           next unless line.match?(/^#+\s+Notes for/)
+          next if line.match?(/Notes for _summary/)
 
           following_lines = []
           j = i + 1
@@ -145,6 +146,7 @@ module Docwright
         puts "⚠  Placeholder content: #{placeholders.size}"
         puts "⚠  Empty notes slots: #{empty_notes.size}"
         puts "\nRun 'rake docwright:generate' to generate missing files."
+        puts "Placeholder content: open the files and add your documentation."
       end
     end
   end
