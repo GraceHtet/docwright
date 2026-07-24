@@ -141,7 +141,7 @@ bundle exec rspec
 ## Contributing
 
 Bug reports and pull requests are welcome on
-[GitHub](https://github.com/GraceHtet/docwright).
+[GitHub](https://github.com/GraceHtet/docwright/issues).
 
 ## License
 

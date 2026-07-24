@@ -159,6 +159,9 @@ module Docwright
       Docwright::Extractors::BackgroundJobsExtractor.new.generate if optional["background_jobs"]
       Docwright::Extractors::ServicesExtractor.new.generate if optional["services"]
       Docwright::Extractors::ConcernsExtractor.new.generate if optional["concerns"]
+    rescue NameError => e
+      puts "DocWright: skipped some optional docs — #{e.message}"
+      puts "  Check your config/application.rb and ensure required railties are loaded."
     end
 
     def process_manual_files(files)
@@ -237,7 +240,11 @@ module Docwright
 
     def write_template(path, filename)
       FileUtils.mkdir_p(File.dirname(path))
-      Docwright::Generators::ManualGenerator.new.generate_single(path, filename)
+      if path.include?("features/")
+        Docwright::Generators::FeatureGenerator.new.generate_single(path, filename)
+      else
+        Docwright::Generators::ManualGenerator.new.generate_single(path, filename)
+      end
     end
   end
 end

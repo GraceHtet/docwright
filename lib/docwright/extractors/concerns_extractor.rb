@@ -4,7 +4,16 @@ module Docwright
   module Extractors
     class ConcernsExtractor
       def generate
-        Rails.application.eager_load!
+        unless defined?(ActiveRecord) && defined?(ActionController)
+          puts "DocWright: skipped concerns.md — ActiveRecord or ActionController is not loaded."
+          return
+        end
+
+        begin
+          Rails.application.eager_load!
+        rescue NameError => e
+          puts "DocWright: warning — could not eager load all files: #{e.message}"
+        end
 
         concerns = find_model_concerns + find_controller_concerns
 

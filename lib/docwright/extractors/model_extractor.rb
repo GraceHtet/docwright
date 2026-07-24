@@ -4,6 +4,17 @@ module Docwright
   module Extractors
     class ModelExtractor
       def generate
+        unless defined?(ActiveRecord)
+          puts "DocWright: skipped models.md — ActiveRecord is not loaded."
+          return
+        end
+
+        begin
+          Rails.application.eager_load!
+        rescue NameError => e
+          puts "DocWright: warning — could not eager load all files: #{e.message}"
+        end
+
         models = find_models
         FileUtils.mkdir_p("docs")
 
@@ -42,7 +53,6 @@ module Docwright
       private
 
       def find_models
-        Rails.application.eager_load!
         ActiveRecord::Base.descendants.reject { |m| m.abstract_class? }.sort_by(&:name)
       end
     end

@@ -15,7 +15,7 @@ module Docwright
 
     def self.write_named(path, name, auto_content, notes_placeholder)
       if File.exist?(path)
-        merge_named(path, name, auto_content)
+        merge_named(path, name, auto_content, notes_placeholder)
       else
         fresh_named(path, name, auto_content, notes_placeholder)
       end
@@ -42,7 +42,7 @@ module Docwright
       File.write(path, updated)
     end
 
-    def self.merge_named(path, name, auto_content)
+    def self.merge_named(path, name, auto_content, notes_placeholder)
       existing = File.read(path)
       start_marker = "<!-- DOCWRIGHT:AUTO:#{name} -->"
       end_marker = "<!-- DOCWRIGHT:END:#{name} -->"
@@ -51,7 +51,7 @@ module Docwright
       updated = if existing.include?(start_marker)
                   existing.gsub(/#{Regexp.escape(start_marker)}.*?#{Regexp.escape(end_marker)}/m, replacement)
                 else
-                  existing + "\n#{replacement}\n### Notes for #{name}\n<!-- Add your notes about #{name} here -->\n"
+                  existing + "\n#{replacement}\n#{notes_placeholder}\n"
                 end
       File.write(path, updated)
     end

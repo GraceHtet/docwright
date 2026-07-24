@@ -30,6 +30,16 @@ module Docwright
         end
       end
 
+      def generate_single(path, filename)
+        return if File.exist?(path)
+
+        name = filename.gsub(".md", "")
+
+        description = "<!-- Describe the feature -->"
+        FileUtils.mkdir_p(File.dirname(path))
+        File.write(path, template(name, description))
+      end
+
       private
 
       def template(name, description)

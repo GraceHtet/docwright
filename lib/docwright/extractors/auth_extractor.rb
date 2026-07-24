@@ -5,7 +5,11 @@ module Docwright
     class AuthExtractor # rubocop:disable Style/Documentation
       CALLBACK_KINDS = %i[before around after].freeze
       def generate
-        Rails.application.eager_load!
+        begin
+          Rails.application.eager_load!
+        rescue NameError => e
+          puts "DocWright: warning — could not eager load all files: #{e.message}"
+        end
 
         controllers = find_controllers
         filter_map = build_filter_map(controllers)
