@@ -12,7 +12,7 @@ module Docwright
         begin
           Rails.application.eager_load!
         rescue NameError => e
-          puts "DocWright: warning — could not eager load all files: #{e.message}"
+          # puts "DocWright: warning — could not eager load all files: #{e.message}"
         end
 
         concerns = find_model_concerns + find_controller_concerns

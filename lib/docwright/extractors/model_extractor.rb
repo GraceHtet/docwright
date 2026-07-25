@@ -12,7 +12,7 @@ module Docwright
         begin
           Rails.application.eager_load!
         rescue NameError => e
-          puts "DocWright: warning — could not eager load all files: #{e.message}"
+          # raise unless e.message.include?("uninitialized constant")
         end
 
         models = find_models
