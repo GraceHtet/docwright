@@ -5,17 +5,16 @@ module Docwright
     class BackgroundJobsExtractor
       INTERNAL_JOBS = %w[ApplicationJob].freeze
 
-      def generate
+      def generate(eager_load_failed = false)
         unless defined?(ActiveJob)
           puts "DocWright: skipped background_jobs.md — ActiveJob is not loaded."
           puts "  To enable: uncomment 'require \"active_job/railtie\"' in config/application.rb"
           return
         end
-        
-        begin
-          Rails.application.eager_load!
-        rescue NameError => e
-          puts "DocWright: warning — could not eager load all files: #{e.message}"
+
+        if eager_load_failed
+          puts "DocWright: skipped background_jobs.md — eager_load failed"
+          return
         end
 
         jobs = find_jobs

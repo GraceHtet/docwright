@@ -3,8 +3,11 @@
 module Docwright
   module Extractors
     class ServicesExtractor
-      def generate
-        Rails.application.eager_load!
+      def generate(eager_load_failed = false)
+        if eager_load_failed
+          puts "DocWright: skipped services.md — eager_load failed"
+          return
+        end
 
         services = find_services
         if services.empty?

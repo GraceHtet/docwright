@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Docwright
+  # Wizard generates documentation files from Rails app metadata.
   class Wizard # rubocop:disable Metrics/ClassLength
     FIRST_RUN_MESSAGE = <<~MSG
       ============================================
@@ -141,9 +142,20 @@ module Docwright
 
     def generate_auto_files
       puts "\nDocWright: generating auto files..."
+
+      begin
+        Rails.application.eager_load!
+      rescue NameError => e
+        puts "\nDocWright: ⚠  Could not load all Rails components."
+        puts "  Reason: #{e.message}"
+        puts "  Some files may not be generated."
+        puts "  Check config/application.rb and ensure all required railties are uncommented.\n\n"
+        @eager_load_failed = true
+      end
+
       Docwright::Extractors::DatabaseExtractor.new.generate
       Docwright::Extractors::ApiExtractor.new.generate
-      Docwright::Extractors::ModelExtractor.new.generate
+      Docwright::Extractors::ModelExtractor.new.generate(@eager_load_failed)
       generate_optional_docs
     end
 
@@ -155,10 +167,10 @@ module Docwright
       return unless config.is_a?(Hash)
 
       optional = config["optional_docs"] || {}
-      Docwright::Extractors::AuthExtractor.new.generate if optional["auth_and_permissions"]
-      Docwright::Extractors::BackgroundJobsExtractor.new.generate if optional["background_jobs"]
-      Docwright::Extractors::ServicesExtractor.new.generate if optional["services"]
-      Docwright::Extractors::ConcernsExtractor.new.generate if optional["concerns"]
+      Docwright::Extractors::AuthExtractor.new.generate(@eager_load_failed) if optional["auth_and_permissions"]
+      Docwright::Extractors::BackgroundJobsExtractor.new.generate(@eager_load_failed) if optional["background_jobs"]
+      Docwright::Extractors::ServicesExtractor.new.generate(@eager_load_failed) if optional["services"]
+      Docwright::Extractors::ConcernsExtractor.new.generate(@eager_load_failed) if optional["concerns"]
     rescue NameError => e
       puts "DocWright: skipped some optional docs — #{e.message}"
       puts "  Check your config/application.rb and ensure required railties are loaded."

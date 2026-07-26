@@ -3,16 +3,15 @@
 module Docwright
   module Extractors
     class ModelExtractor
-      def generate
+      def generate(eager_load_failed = false)
         unless defined?(ActiveRecord)
           puts "DocWright: skipped models.md — ActiveRecord is not loaded."
           return
         end
 
-        begin
-          Rails.application.eager_load!
-        rescue NameError => e
-          # raise unless e.message.include?("uninitialized constant")
+        if eager_load_failed
+          puts "DocWright: skipped models.md — eager_load failed, check config/application.rb"
+          return
         end
 
         models = find_models
