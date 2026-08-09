@@ -49,7 +49,7 @@ module Docwright
         puts ""
       end
 
-      puts "#{results.size} #{"file".pluralize(results.size)}, #{total_matches} #{"match".pluralize(total_matches)} found."
+      puts "#{results.size} #{"file".pluralize(results.size)}, #{total_matches} #{"line".pluralize(total_matches)} found."
     end
   end
 end
