@@ -86,3 +86,19 @@ end
 class AnotherJob < ApplicationJob
   queue_as :mailers
 end
+
+class ArticleService
+  def call
+    # main entry point
+  end
+
+  def publish(article)
+    # publish logic
+  end
+
+  private
+
+  def validate
+    # private — should NOT appear in output
+  end
+end
