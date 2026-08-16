@@ -49,3 +49,28 @@ TestApp::Application.routes.draw do
     resources :posts
   end
 end
+
+class UsersController < ActionController::Base
+  before_action :authenticate_user!
+
+  private
+
+  def authenticate_user!
+    # test auth filter
+  end
+end
+
+class PostsController < ActionController::Base
+  before_action :authenticate_user!
+  before_action :set_post, only: %i[show edit update destroy]
+
+  private
+
+  def authenticate_user!
+    # test auth filter
+  end
+
+  def set_post
+    # test filter with only condition
+  end
+end
