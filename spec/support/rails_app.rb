@@ -74,3 +74,15 @@ class PostsController < ActionController::Base
     # test filter with only condition
   end
 end
+
+require "active_job"
+
+class ApplicationJob < ActiveJob::Base; end
+
+class TestJob < ApplicationJob
+  queue_as :default
+end
+
+class AnotherJob < ApplicationJob
+  queue_as :mailers
+end
