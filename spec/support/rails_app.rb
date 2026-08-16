@@ -34,12 +34,33 @@ ActiveRecord::Schema.define do
   end
 end
 
+module Publishable
+  extend ActiveSupport::Concern
+
+  def publish
+    update(published: true)
+  end
+
+  def unpublish
+    update(published: false)
+  end
+end
+
+module Authenticatable
+  extend ActiveSupport::Concern
+
+  def authenticate!
+    # auth logic
+  end
+end
+
 class User < ActiveRecord::Base
   has_many :posts
   validates :name, presence: true
 end
 
 class Post < ActiveRecord::Base
+  include Publishable
   belongs_to :user
   validates :title, presence: true
 end
@@ -51,6 +72,7 @@ TestApp::Application.routes.draw do
 end
 
 class UsersController < ActionController::Base
+  include Authenticatable
   before_action :authenticate_user!
 
   private
